@@ -8,7 +8,35 @@ import AssetDetailCard, { Fallback as FallbackDetailsCard } from './AssetDetailC
 import AssetRelationshipTableWrapper from '@/components/views/Asset/AssetRelationshipTableWrapper';
 import IpOrgLicenseDataViewer from '@/components/views/Licenses';
 
+type Params = {
+  ipAssetId: string
+  ipOrgId: string 
+}
+type Props = {
+  params: Params
+}
 
+export async function generateMetadata(
+  { params: { ipAssetId } }: Props
+): Promise<Metadata> {
+  const {ipAsset} = await storyClient.ipAsset.get({ ipAssetId });
+  type MediaInfo = {
+    originUrl: string
+    description: string
+  }
+  const resp = await fetch(ipAsset.mediaUrl);
+  const result = await resp.json() as MediaInfo;
+  const {originUrl, description} = result
+
+  return {
+    title: `Story Protocol - ${ipAsset.name}`,
+    openGraph: {
+      title: `Story Protocol - ${ipAsset.name}`,
+      description: description,
+      images: [originUrl],
+    },
+  }
+}
 
 export default async function AssetDetailPage({
   params: { ipAssetId, ipOrgId },
