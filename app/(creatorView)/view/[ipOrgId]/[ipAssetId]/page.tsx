@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import Link from 'next/link';
 import storyClient from '@/lib/SP';
-
+import { Metadata } from 'next'
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import AssetDetailCard, { Fallback as FallbackDetailsCard } from './AssetDetailCard';
